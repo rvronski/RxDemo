@@ -114,13 +114,6 @@ class ViewController: UIViewController {
     // AsyncSubject - хранит текущее значение и ретранслирует его подписчикам
     let asyncSubject = AsyncSubject<Int>()
     
-    @objc func tapButton() {
-//        test(publishSubject, count: 2)
-        test(behaviorSubject, count: 2)
-//        test(replaySubject, count: 5)
-//        test(asyncSubject, count: 3)
-    }
-    
     func setupView() {
         self.view.backgroundColor = .white
         self.view.addSubview(button)
