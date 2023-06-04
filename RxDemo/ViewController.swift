@@ -21,7 +21,6 @@ class ViewController: UIViewController {
         b.backgroundColor = .systemBlue
         b.layer.cornerRadius = 10
         b.titleColor(for: .highlighted)
-        
         return b
     }()
     
@@ -69,6 +68,8 @@ class ViewController: UIViewController {
         // deferred - вернет значение переменной count только в момент обращения к ней
         let defferObservable = Observable.deferred{ return Observable<Int>.just(self.count)}
 //        self.count += 1
+        
+///        RXButton
         button.rx
             .tap
             .throttle(DispatchTimeInterval.seconds(1) , scheduler: MainScheduler.asyncInstance)
@@ -89,8 +90,6 @@ class ViewController: UIViewController {
             subject
                 .subscribe(onNext: { value in
                     subscriptionResult[i] += "\(value) --"
-                    
-                    
                 },
                 onCompleted: {
                     print("\(subject.self)Subscription\(i): \(subscriptionResult[i])>")
