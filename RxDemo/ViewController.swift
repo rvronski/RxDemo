@@ -24,10 +24,15 @@ class ViewController: UIViewController {
         return b
     }()
     
-    lazy var publishSubjectButton = CustomButton(textButton: "Publish")
-    lazy var behaviorSubjectButton = CustomButton(textButton: "Behavior")
-    lazy var relaySubjectButton = CustomButton(textButton: "Relay")
-    lazy var asyncSubjectButton = CustomButton(textButton: "Async")
+    lazy var publishSubjectButton = CustomButton(textButton: "Publish", color: .systemBlue)
+    lazy var behaviorSubjectButton = CustomButton(textButton: "Behavior", color: .systemBlue)
+    lazy var relaySubjectButton = CustomButton(textButton: "Relay", color: .systemBlue)
+    lazy var asyncSubjectButton = CustomButton(textButton: "Async", color: .systemBlue)
+    
+    lazy var operatorsButton = CustomButton(textButton: "Operators >", color: .systemGreen)
+    
+   
+    
     
     
     private lazy var labelCount: UILabel = {
@@ -38,14 +43,7 @@ class ViewController: UIViewController {
         return label
     }()
     
-    private lazy var labelCountTwo: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "\(count)"
-        label.textColor = .black
-        return label
-    }()
-    
+   
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
@@ -64,6 +62,11 @@ class ViewController: UIViewController {
         asyncSubjectButton.tapButton = { [unowned self] in
             self.test(asyncSubject, count: 3)
         }
+        
+        operatorsButton.tapButton = { [unowned self] in
+            let operatorVC = OperatorsViewController()
+            self.navigationController?.pushViewController(operatorVC, animated: true)
+        }
         let plainObservable = Observable<Int>.just(count)
         // deferred - вернет значение переменной count только в момент обращения к ней
         let defferObservable = Observable.deferred{ return Observable<Int>.just(self.count)}
@@ -72,7 +75,7 @@ class ViewController: UIViewController {
 ///        RXButton
         button.rx
             .tap
-            .throttle(DispatchTimeInterval.seconds(1) , scheduler: MainScheduler.asyncInstance)
+//            .throttle(DispatchTimeInterval.seconds(1) , scheduler: MainScheduler.asyncInstance)
             .subscribe(onNext: { [weak self] in
                 self?.count += 1
                 self?.labelCount.text = "\(self?.count ?? 0)"
@@ -117,11 +120,11 @@ class ViewController: UIViewController {
         self.view.backgroundColor = .white
         self.view.addSubview(button)
         self.view.addSubview(labelCount)
-        self.view.addSubview(labelCountTwo)
         self.view.addSubview(publishSubjectButton)
         self.view.addSubview(behaviorSubjectButton)
         self.view.addSubview(relaySubjectButton)
         self.view.addSubview(asyncSubjectButton)
+        self.view.addSubview(operatorsButton)
         
         NSLayoutConstraint.activate([
         
@@ -132,9 +135,6 @@ class ViewController: UIViewController {
             
             labelCount.bottomAnchor.constraint(equalTo: self.button.topAnchor, constant: -20),
             labelCount.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            
-            labelCountTwo.topAnchor.constraint(equalTo: self.button.bottomAnchor, constant: 20),
-            labelCountTwo.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             
             publishSubjectButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 16),
             publishSubjectButton.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 16),
@@ -155,6 +155,11 @@ class ViewController: UIViewController {
             asyncSubjectButton.centerYAnchor.constraint(equalTo: self.relaySubjectButton.centerYAnchor),
             asyncSubjectButton.heightAnchor.constraint(equalToConstant: 40),
             asyncSubjectButton.widthAnchor.constraint(equalToConstant: 150),
+            
+            operatorsButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
+            operatorsButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 16),
+            operatorsButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -16),
+            operatorsButton.heightAnchor.constraint(equalToConstant: 50)
             
         ])
     }

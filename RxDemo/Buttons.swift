@@ -9,12 +9,12 @@ import UIKit
 
 class CustomButton: UIButton {
     var tapButton: ( () -> Void )?
-    init(textButton: String) {
+    init(textButton: String, color: UIColor) {
         super.init(frame: .zero)
         frame = .zero
         translatesAutoresizingMaskIntoConstraints = false
         setTitle(textButton, for: .normal)
-        backgroundColor = .systemBlue
+        backgroundColor = color
         layer.cornerRadius = 10
         titleColor(for: .highlighted)
         addTarget(self, action: #selector(didTapButton), for: .touchUpInside)

@@ -10,6 +10,7 @@ target 'RxDemo' do
   pod 'RxSwift'
   pod 'RxCocoa'
   pod 'RxAlamofire'
+  pod 'SnapKit'
   
 
 
